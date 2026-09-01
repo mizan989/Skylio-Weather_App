@@ -1,59 +1,50 @@
-# Skylio
+﻿# Skylio — Minimalist Precision Weather Application
 
-Weather, reimagined — minimally.
+[![React](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
+[![Open-Meteo](https://img.shields.io/badge/API-Open--Meteo-orange)](https://open-meteo.com/)
 
-A quiet, precise weather app. No glass cards, no particle storms — just a
-clean type-forward layout with one signature detail: the **horizon line**, a
-thin gradient bar under the temperature that shifts color with the current
-condition and time of day (warm blue-to-gold by day, deep navy-to-indigo
-by night, cooler grays for fog/rain/snow).
+A quiet, type-forward weather web application designed with an emphasis on typography, micro-animations, and visual clarity. Skylio eschews cluttered dashboard cards in favor of a signature dynamic **horizon line**—a subtle gradient that shifts hues based on the current weather condition and solar cycle.
 
-## Stack
+---
 
-- React 19 + TypeScript + Vite
-- Tailwind CSS v4
-- [Open-Meteo](https://open-meteo.com/) — forecast + geocoding APIs (free, no key required)
-- lucide-react for icons
+## UI Preview
 
-## Features
+![Skylio Weather Interface](./assets/screenshot.png)
 
-- Search any city, or use current location (geolocation + reverse geocoding)
-- Current conditions: temperature, feels-like, condition, humidity, wind, pressure, sunrise/sunset, rain chance
-- Next 24 hours, scrollable
-- 7-day forecast with a scaled low/high range bar per day
-- °C / °F toggle
-- Light / dark mode (persisted, respects system preference by default)
-- Fully responsive, mobile-first
+---
 
-## Run it
+## Key Features
+
+- **Dynamic Solar Horizon:** Real-time gradient indicator adapting between daytime gold-blues, twilight purples, and deep night indigos.
+- **Precision Meteorological Telemetry:** Real-time temperature, hourly trend graphs, precipitation probability, humidity, UV index, and wind velocity.
+- **Zero-Key API Integration:** Seamlessly retrieves weather and geocoding coordinates via the free, open-access **Open-Meteo API**.
+- **Smooth Kinetic Physics:** High-frame-rate transitions and gestures powered by Framer Motion and Lenis smooth scrolling.
+
+---
+
+## Tech Stack
+
+- **Framework:** React 19 + Vite
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS v4
+- **Animation & Motion:** Framer Motion, Lenis Scroll
+- **Data Source:** Open-Meteo Weather & Geocoding APIs
+
+---
+
+## Getting Started
 
 ```bash
+# Clone the repository
+git clone https://github.com/mizan989/Skylio-Weather_App.git
+cd Skylio-Weather_App
+
+# Install dependencies
 npm install
+
+# Run the development server
 npm run dev
 ```
-
-Build for production:
-
-```bash
-npm run build
-```
-
-Output goes to `dist/` — deploy it anywhere static (Vercel, Netlify, GitHub Pages).
-
-## Project structure
-
-```
-src/
-  components/     UI pieces (SearchBar, CurrentWeather, HourlyStrip, DailyList, DetailsGrid, Toggles)
-  hooks/          useWeather (data fetching), useGeolocation
-  lib/            api.ts (Open-Meteo client), weatherCodes.ts (WMO code -> icon/label),
-                  horizon.ts (the signature gradient logic)
-  types/          shared TypeScript types
-```
-
-## Notes / next steps
-
-This is a deliberately trimmed-down build of a larger spec (air quality, maps,
-charts, PWA install, favorites). The architecture (typed API layer, one hook
-per concern) is set up so any of those can be added as a new component plus a
-small addition to `lib/api.ts` without restructuring anything.
+Open [http://localhost:5173](http://localhost:5173) in your browser.
