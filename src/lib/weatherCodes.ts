@@ -43,7 +43,14 @@ const CODES: Record<number, { label: string; description: string; day: LucideIco
 };
 
 export function getWeatherMeta(code: number, isDay: boolean): WeatherMeta {
-  const entry = CODES[code] ?? CODES[0];
+  const entry = CODES[code];
+  if (!entry) {
+    return {
+      label: 'Unknown',
+      description: 'Atmospheric condition code not cataloged',
+      icon: isDay ? CloudSun : CloudMoon,
+    };
+  }
   return {
     label: entry.label,
     description: entry.description,

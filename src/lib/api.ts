@@ -1,6 +1,13 @@
-import type { ForecastResponse, GeocodeResult, TempUnit, WeatherLocation } from '../types/weather';
+import type {
+  AirQualityResponse,
+  ForecastResponse,
+  GeocodeResult,
+  TempUnit,
+  WeatherLocation
+} from '../types/weather';
 
 const FORECAST_URL = 'https://api.open-meteo.com/v1/forecast';
+const AIR_QUALITY_URL = 'https://air-quality-api.open-meteo.com/v1/air-quality';
 const GEOCODE_URL = 'https://geocoding-api.open-meteo.com/v1/search';
 
 export async function searchCities(query: string): Promise<GeocodeResult[]> {
@@ -142,5 +149,39 @@ export async function fetchForecast(
   });
   const res = await fetch(`${FORECAST_URL}?${params.toString()}`);
   if (!res.ok) throw new Error('Forecast fetch failed');
+  return res.json();
+}
+
+export async function fetchAirQuality(
+  lat: number,
+  lon: number
+): Promise<AirQualityResponse> {
+  const params = new URLSearchParams({
+    latitude: String(lat),
+    longitude: String(lon),
+    current: [
+      'european_aqi',
+      'us_aqi',
+      'pm10',
+      'pm2_5',
+      'carbon_monoxide',
+      'nitrogen_dioxide',
+      'sulphur_dioxide',
+      'ozone',
+    ].join(','),
+    hourly: [
+      'european_aqi',
+      'us_aqi',
+      'pm10',
+      'pm2_5',
+      'ozone',
+      'nitrogen_dioxide',
+    ].join(','),
+    timezone: 'auto',
+    forecast_days: '2',
+  });
+
+  const res = await fetch(`${AIR_QUALITY_URL}?${params.toString()}`);
+  if (!res.ok) throw new Error('Air quality fetch failed');
   return res.json();
 }

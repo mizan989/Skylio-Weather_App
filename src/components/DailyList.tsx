@@ -2,32 +2,25 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Droplets, Wind, Sun, Sunrise, Sunset } from 'lucide-react';
 import { getWeatherMeta, getUVDetails } from '../lib/weatherCodes';
-import { BentoCard } from './inspira/BentoGrid';
-import type { DailyData } from '../types/weather';
+import { formatDayLabel, formatSunTime } from '../lib/time';
+import { formatWindSpeed, formatPrecipitation } from '../hooks/usePreferences';
+import type { DailyData, WindUnit, PrecipUnit, TimeFormat } from '../types/weather';
 
 interface DailyListProps {
   daily: DailyData;
+  timezone?: string;
+  windUnit?: WindUnit;
+  precipUnit?: PrecipUnit;
+  timeFormat?: TimeFormat;
 }
 
-function fmtDate(iso: string, isToday: boolean) {
-  if (isToday) return { day: 'Today', date: 'Now' };
-  const d = new Date(iso);
-  return {
-    day: d.toLocaleDateString([], { weekday: 'short' }),
-    date: d.toLocaleDateString([], { month: 'short', day: 'numeric' }),
-  };
-}
-
-function fmtTime(iso?: string) {
-  if (!iso) return '—';
-  try {
-    return new Date(iso).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-  } catch {
-    return '—';
-  }
-}
-
-export default function DailyList({ daily }: DailyListProps) {
+export default function DailyList({
+  daily,
+  timezone,
+  windUnit = 'kmh',
+  precipUnit = 'mm',
+  timeFormat = '12h',
+}: DailyListProps) {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   const allMin = Math.min(...daily.temperature_2m_min);
@@ -39,62 +32,79 @@ export default function DailyList({ daily }: DailyListProps) {
   };
 
   return (
-    <BentoCard className="w-full">
-      <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
-        <h3 className="font-mono text-xs uppercase tracking-wider text-white/50">
-          7-Day Forecast Matrix
-        </h3>
-        <span className="font-mono text-[10px] text-white/30">Click row to expand</span>
+    <section
+      aria-label="7-Day Synoptic Forecast"
+      className="overflow-hidden rounded-3xl border border-white/[0.08] bg-[#0E1524]/85 p-5 sm:p-6 shadow-[0_16px_40px_rgba(0,0,0,0.35)] backdrop-blur-2xl"
+    >
+      <div className="flex items-center justify-between border-b border-white/[0.06] pb-3.5">
+        <div>
+          <h3 className="font-mono text-xs uppercase tracking-wider text-white/50">
+            7-Day Synoptic Matrix
+          </h3>
+          <p className="mt-0.5 font-mono text-[11px] text-white/35">
+            Extended range & daily weather outlook
+          </p>
+        </div>
+        <span className="font-mono text-[10px] text-white/30 hidden sm:inline">
+          Click row to expand details
+        </span>
       </div>
 
-      <div className="mt-1 divide-y divide-white/[0.04]">
+      <div className="mt-2 divide-y divide-white/[0.04]">
         {daily.time.map((date, i) => {
           const isToday = i === 0;
-          const { day } = fmtDate(date, isToday);
-          const { label, icon: Icon } = getWeatherMeta(daily.weather_code[i], true);
+          const { day } = formatDayLabel(date, timezone, isToday);
+          const { label, icon: Icon } = getWeatherMeta(daily.weather_code[i] ?? 0, true);
           const lo = daily.temperature_2m_min[i];
           const hi = daily.temperature_2m_max[i];
           const barStart = ((lo - allMin) / range) * 100;
           const barWidth = Math.max(8, ((hi - lo) / range) * 100);
           const precipProb = daily.precipitation_probability_max[i];
           const precipSum = daily.precipitation_sum ? daily.precipitation_sum[i] : 0;
-          const maxWind = daily.wind_speed_10m_max ? Math.round(daily.wind_speed_10m_max[i]) : null;
-          const maxGusts = daily.wind_gusts_10m_max ? Math.round(daily.wind_gusts_10m_max[i]) : null;
+          const precipFormatted = formatPrecipitation(precipSum, precipUnit);
+          const maxWind = daily.wind_speed_10m_max
+            ? formatWindSpeed(daily.wind_speed_10m_max[i], windUnit)
+            : null;
+          const maxGusts = daily.wind_gusts_10m_max
+            ? formatWindSpeed(daily.wind_gusts_10m_max[i], windUnit)
+            : null;
           const uvMax = daily.uv_index_max ? daily.uv_index_max[i] : null;
           const uvInfo = uvMax !== null ? getUVDetails(uvMax) : null;
+          const sunriseStr = formatSunTime(daily.sunrise?.[i], timezone, timeFormat === '24h');
+          const sunsetStr = formatSunTime(daily.sunset?.[i], timezone, timeFormat === '24h');
           const isExpanded = expandedIndex === i;
 
           return (
-            <motion.div
-              key={date}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.25, delay: i * 0.02 }}
-              className="transition-colors"
-            >
-              <motion.button
-                whileHover={{ x: 2 }}
-                whileTap={{ scale: 0.995 }}
+            <div key={date} className="transition-colors">
+              <button
+                type="button"
                 onClick={() => toggleExpand(i)}
-                className={`flex w-full items-center gap-3 py-3 text-left text-sm transition-all duration-200 rounded-xl px-2 ${
-                  isExpanded ? 'bg-white/[0.05] shadow-[0_2px_12px_rgba(0,0,0,0.15)]' : 'hover:bg-white/[0.025]'
+                aria-expanded={isExpanded}
+                className={`flex w-full items-center gap-2 sm:gap-3 py-3 text-left transition-all duration-200 rounded-xl px-2 sm:px-3 ${
+                  isExpanded
+                    ? 'bg-white/[0.06] shadow-[0_2px_12px_rgba(0,0,0,0.2)]'
+                    : 'hover:bg-white/[0.025]'
                 }`}
               >
                 {/* Day label */}
-                <span className={`w-14 shrink-0 font-mono text-xs ${isToday ? 'text-[var(--sky)] font-semibold' : 'text-white/80'}`}>
+                <span
+                  className={`w-12 sm:w-16 shrink-0 font-mono text-xs ${
+                    isToday ? 'text-[var(--sky)] font-semibold' : 'text-white/80'
+                  }`}
+                >
                   {day}
                 </span>
 
                 {/* Weather icon & label */}
-                <div className="flex w-28 sm:w-36 shrink-0 items-center gap-2">
+                <div className="flex w-24 sm:w-36 shrink-0 items-center gap-2">
                   <Icon size={16} strokeWidth={1.5} className="shrink-0 text-[var(--sky)]" />
                   <span className="truncate text-xs text-white/70 font-normal">{label}</span>
                 </div>
 
                 {/* Rain probability */}
-                <div className="w-10 shrink-0">
+                <div className="w-10 shrink-0 text-center">
                   {precipProb > 10 ? (
-                    <span className="font-mono text-[11px] text-[var(--gold)] font-medium">
+                    <span className="font-mono text-[11px] text-[var(--sky)] font-medium">
                       {precipProb}%
                     </span>
                   ) : (
@@ -103,75 +113,79 @@ export default function DailyList({ daily }: DailyListProps) {
                 </div>
 
                 {/* Low temp */}
-                <span className="w-7 shrink-0 text-right font-mono text-xs text-white/50 tabular-nums">
+                <span className="w-6 sm:w-8 shrink-0 text-right font-mono text-xs text-white/50 tabular-nums">
                   {Math.round(lo)}°
                 </span>
 
                 {/* Scaled bar */}
-                <div className="relative mx-1 h-1.5 flex-1 rounded-full bg-white/[0.08] overflow-hidden">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${barWidth}%` }}
-                    transition={{ duration: 0.8, delay: i * 0.05, ease: 'easeOut' }}
+                <div className="relative mx-1 sm:mx-2 h-1.5 flex-1 rounded-full bg-white/[0.08] overflow-hidden">
+                  <div
                     className="absolute h-full rounded-full"
                     style={{
                       left: `${barStart}%`,
-                      background: 'linear-gradient(90deg, var(--sky), var(--gold))',
+                      width: `${barWidth}%`,
+                      background: 'linear-gradient(90deg, #70B8FF, #FFD166)',
                     }}
                   />
                 </div>
 
                 {/* High temp */}
-                <span className="w-7 shrink-0 font-mono text-xs text-white/90 tabular-nums font-medium">
+                <span className="w-6 sm:w-8 shrink-0 font-mono text-xs text-white/90 tabular-nums font-medium text-right">
                   {Math.round(hi)}°
                 </span>
 
-                <motion.div
-                  animate={{ rotate: isExpanded ? 180 : 0 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                  className="shrink-0 text-white/30"
-                >
-                  <ChevronDown size={13} />
-                </motion.div>
-              </motion.button>
+                <div className="shrink-0 text-white/30 ml-1">
+                  <motion.div
+                    animate={{ rotate: isExpanded ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ChevronDown size={13} />
+                  </motion.div>
+                </div>
+              </button>
 
-              {/* Smooth Animated Accordion Drawer */}
+              {/* Expandable day drawer */}
               <AnimatePresence>
                 {isExpanded && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+                    transition={{ duration: 0.25, ease: 'easeInOut' }}
                     className="overflow-hidden"
                   >
-                    <div className="my-2 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-4 text-xs font-mono backdrop-blur-md">
-                      <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-4 text-white/70">
-                        <div className="flex items-center gap-1.5">
-                          <Wind size={13} className="text-[var(--sky)]" />
-                          <span>Wind {maxWind ?? '—'} km/h {maxGusts ? `(${maxGusts}g)` : ''}</span>
-                        </div>
+                    <div className="my-2 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-3.5 sm:p-4 text-xs font-mono">
+                      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 text-white/70">
+                        {maxWind && (
+                          <div className="flex items-center gap-1.5">
+                            <Wind size={13} className="text-[var(--sky)]" />
+                            <span>
+                              Wind {maxWind.value} {maxWind.unit}{' '}
+                              {maxGusts ? `(${maxGusts.value}g)` : ''}
+                            </span>
+                          </div>
+                        )}
 
                         <div className="flex items-center gap-1.5">
-                          <Droplets size={13} className="text-[var(--gold)]" />
-                          <span>Rain {precipSum > 0 ? `${precipSum.toFixed(1)} mm` : '0 mm'}</span>
+                          <Droplets size={13} className="text-[var(--sky)]" />
+                          <span>Precip {precipFormatted.value} {precipFormatted.unit}</span>
                         </div>
 
                         {uvInfo && (
                           <div className="flex items-center gap-1.5">
                             <Sun size={13} style={{ color: uvInfo.color }} />
-                            <span>UV Max {uvMax} ({uvInfo.level})</span>
+                            <span>UV {uvMax} ({uvInfo.level})</span>
                           </div>
                         )}
 
                         <div className="flex items-center gap-2">
                           <div className="flex items-center gap-1">
-                            <Sunrise size={12} className="text-[var(--gold)]" />
-                            <span>{fmtTime(daily.sunrise[i])}</span>
+                            <Sunrise size={12} className="text-amber-300" />
+                            <span>{sunriseStr}</span>
                           </div>
                           <div className="flex items-center gap-1">
-                            <Sunset size={12} className="text-orange-300" />
-                            <span>{fmtTime(daily.sunset[i])}</span>
+                            <Sunset size={12} className="text-orange-400" />
+                            <span>{sunsetStr}</span>
                           </div>
                         </div>
                       </div>
@@ -179,10 +193,10 @@ export default function DailyList({ daily }: DailyListProps) {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </motion.div>
+            </div>
           );
         })}
       </div>
-    </BentoCard>
+    </section>
   );
 }

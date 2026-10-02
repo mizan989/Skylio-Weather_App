@@ -5,22 +5,17 @@ import {
   FileText,
   ArrowUp,
   ExternalLink,
-  Compass,
-  Clock,
-  CalendarDays,
-  Activity,
-  Layers,
-  Sparkles,
-  Heart
+  CloudSun,
+  Wind,
+  Sliders,
+  Settings
 } from 'lucide-react';
-import type { WeatherViewTab } from '../types/weather';
+import type { PrimaryDestination } from '../types/weather';
 
 interface SocialLink {
   name: string;
   url: string;
   hoverColor: string;
-  hoverBorder: string;
-  hoverGlow: string;
   icon: (props: { className?: string }) => React.JSX.Element;
 }
 
@@ -29,8 +24,6 @@ const SOCIAL_LINKS: SocialLink[] = [
     name: 'GitHub',
     url: 'https://github.com/mizan989',
     hoverColor: 'hover:text-white hover:bg-white/[0.08]',
-    hoverBorder: 'hover:border-white/30',
-    hoverGlow: 'hover:shadow-[0_0_16px_rgba(255,255,255,0.2)]',
     icon: ({ className }) => (
       <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path
@@ -45,8 +38,6 @@ const SOCIAL_LINKS: SocialLink[] = [
     name: 'X',
     url: 'https://x.com/mizanmohammadd',
     hoverColor: 'hover:text-white hover:bg-white/[0.08]',
-    hoverBorder: 'hover:border-white/30',
-    hoverGlow: 'hover:shadow-[0_0_16px_rgba(255,255,255,0.25)]',
     icon: ({ className }) => (
       <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -57,8 +48,6 @@ const SOCIAL_LINKS: SocialLink[] = [
     name: 'LinkedIn',
     url: 'https://www.linkedin.com/in/mizann989/',
     hoverColor: 'hover:text-[#0A66C2] hover:bg-[#0A66C2]/10',
-    hoverBorder: 'hover:border-[#0A66C2]/40',
-    hoverGlow: 'hover:shadow-[0_0_18px_rgba(10,102,194,0.35)]',
     icon: ({ className }) => (
       <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
@@ -69,8 +58,6 @@ const SOCIAL_LINKS: SocialLink[] = [
     name: 'Instagram',
     url: 'https://www.instagram.com/mizanmohammadd',
     hoverColor: 'hover:text-[#E4405F] hover:bg-[#E4405F]/10',
-    hoverBorder: 'hover:border-[#E4405F]/40',
-    hoverGlow: 'hover:shadow-[0_0_18px_rgba(228,64,95,0.35)]',
     icon: ({ className }) => (
       <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path
@@ -85,146 +72,141 @@ const SOCIAL_LINKS: SocialLink[] = [
 
 interface FooterProps {
   onOpenLegal?: (tab: 'privacy' | 'terms') => void;
-  onNavigateTab?: (tab: WeatherViewTab) => void;
+  onNavigateDestination?: (dest: PrimaryDestination) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenLegal, onNavigateTab }) => {
+export const Footer: React.FC<FooterProps> = ({ onOpenLegal, onNavigateDestination }) => {
   const currentYear = new Date().getFullYear();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleTabClick = (tab: WeatherViewTab) => {
-    onNavigateTab?.(tab);
+  const handleDestinationClick = (dest: PrimaryDestination) => {
+    onNavigateDestination?.(dest);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <footer className="mt-20 mb-8 flex flex-col gap-6">
+    <footer className="mt-16 mb-20 md:mb-8 flex flex-col gap-6">
       {/* Horizon Hairline Separator */}
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-white/[0.15] to-transparent" />
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-white/[0.12] to-transparent" />
 
-      {/* Futuristic Glassmorphic Footer Island */}
-      <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.025] p-6 shadow-[0_16px_50px_rgba(0,0,0,0.4)] backdrop-blur-2xl transition-all duration-300 hover:border-white/[0.14] sm:p-8 md:p-10">
-        {/* Soft Ambient Light Cones */}
-        <div className="pointer-events-none absolute -top-24 left-1/4 -z-10 h-48 w-80 rounded-full bg-[var(--sky)]/10 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-24 right-1/4 -z-10 h-48 w-80 rounded-full bg-amber-500/5 blur-3xl" />
-
-        {/* Main Grid: Multi-Column Layout */}
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
+      {/* Clean Restrained Footer Island */}
+      <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-[#0E1524]/85 p-6 shadow-[0_16px_50px_rgba(0,0,0,0.35)] backdrop-blur-2xl sm:p-8 md:p-10">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
           
-          {/* Column 1: Brand, Tagline & Live Status (lg: 5 cols) */}
-          <div className="flex flex-col gap-4 lg:col-span-5">
+          {/* Column 1: Brand & Identity */}
+          <div className="flex flex-col gap-3.5 lg:col-span-5">
             <div className="flex items-center gap-3">
-              <motion.div
-                whileHover={{ rotate: 15, scale: 1.1 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                className="flex size-9 items-center justify-center rounded-2xl border border-sky-400/30 bg-gradient-to-br from-sky-400/20 to-blue-600/20 text-[var(--sky)] shadow-[0_0_15px_rgba(220,232,255,0.15)]"
-              >
-                <Sparkles className="size-5" />
-              </motion.div>
-              <div className="flex items-baseline gap-2">
-                <span className="font-display text-2xl font-bold tracking-tight text-white">
-                  Sky<span className="text-[var(--sky)]">lio</span>
-                </span>
-              </div>
+              <img
+                src="/logo.png"
+                alt="Skylio Logo"
+                className="size-9 rounded-xl object-contain border border-white/10 shadow-sm"
+                width={36}
+                height={36}
+              />
+              <span className="font-display text-2xl font-bold tracking-tight text-white">
+                Sky<span className="text-[var(--sky)]">lio</span>
+              </span>
             </div>
 
-            <p className="text-sm leading-relaxed text-white/65 max-w-sm">
-              Hyperlocal atmospheric intelligence, precision forecasts, and real-time celestial telemetry crafted with fluid motion and minimalist design.
+            <p className="text-xs leading-relaxed text-white/60 max-w-sm font-sans">
+              A minimalist, precision weather instrument delivering high-resolution atmospheric telemetry and numerical model forecasts powered by Open-Meteo.
             </p>
 
-            {/* Live Atmospheric Telemetry Beacon */}
-            <div className="mt-1 flex flex-wrap items-center gap-2.5">
-              <div className="flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-950/20 px-3 py-1.5 text-xs text-emerald-300 backdrop-blur-md">
-                <span className="relative flex size-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex size-2 rounded-full bg-emerald-400" />
-                </span>
-                <span className="font-mono text-[11px] font-medium">Sensors: Live • Open-Meteo v1</span>
-              </div>
-
-              <div className="flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-xs font-mono text-white/50">
-                <Layers className="size-3 text-white/40" />
-                <span>ECMWF & GFS Models</span>
-              </div>
+            <div className="flex items-center gap-2 mt-2">
+              {SOCIAL_LINKS.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <a
+                    key={item.name}
+                    href={item.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={item.name}
+                    className="flex size-8 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.02] text-white/50 transition-colors hover:border-white/20 hover:text-white"
+                  >
+                    <Icon className="size-4" />
+                  </a>
+                );
+              })}
             </div>
           </div>
 
-          {/* Column 2: Atmospheric Views (lg: 2 cols) */}
-          <div className="flex flex-col gap-3 lg:col-span-2">
-            <h4 className="font-display text-xs font-semibold uppercase tracking-wider text-white/40">
-              Atmosphere
+          {/* Column 2: Destinations */}
+          <div className="flex flex-col gap-3 lg:col-span-3">
+            <h4 className="font-mono text-xs font-semibold uppercase tracking-wider text-white/40">
+              Navigation
             </h4>
-            <ul className="flex flex-col gap-2 text-sm text-white/70">
+            <ul className="flex flex-col gap-2 text-xs font-mono text-white/70">
               <li>
                 <button
                   type="button"
-                  onClick={() => handleTabClick('overview')}
-                  className="flex items-center gap-2 transition-colors hover:text-white group text-left"
+                  onClick={() => handleDestinationClick('weather')}
+                  className="flex items-center gap-2 transition-colors hover:text-white text-left"
                 >
-                  <Compass className="size-3.5 text-white/40 group-hover:text-[var(--sky)] transition-colors" />
-                  <span>Overview Matrix</span>
+                  <CloudSun size={13} className="text-white/40" />
+                  <span>Main Weather</span>
                 </button>
               </li>
               <li>
                 <button
                   type="button"
-                  onClick={() => handleTabClick('hourly')}
-                  className="flex items-center gap-2 transition-colors hover:text-white group text-left"
+                  onClick={() => handleDestinationClick('airquality')}
+                  className="flex items-center gap-2 transition-colors hover:text-white text-left"
                 >
-                  <Clock className="size-3.5 text-white/40 group-hover:text-[var(--sky)] transition-colors" />
-                  <span>24h Hourly Graph</span>
+                  <Wind size={13} className="text-white/40" />
+                  <span>Air Quality Index</span>
                 </button>
               </li>
               <li>
                 <button
                   type="button"
-                  onClick={() => handleTabClick('daily')}
-                  className="flex items-center gap-2 transition-colors hover:text-white group text-left"
+                  onClick={() => handleDestinationClick('details')}
+                  className="flex items-center gap-2 transition-colors hover:text-white text-left"
                 >
-                  <CalendarDays className="size-3.5 text-white/40 group-hover:text-[var(--sky)] transition-colors" />
-                  <span>7-Day Synoptic</span>
+                  <Sliders size={13} className="text-white/40" />
+                  <span>Atmospheric Details</span>
                 </button>
               </li>
               <li>
                 <button
                   type="button"
-                  onClick={() => handleTabClick('telemetry')}
-                  className="flex items-center gap-2 transition-colors hover:text-white group text-left"
+                  onClick={() => handleDestinationClick('settings')}
+                  className="flex items-center gap-2 transition-colors hover:text-white text-left"
                 >
-                  <Activity className="size-3.5 text-white/40 group-hover:text-[var(--sky)] transition-colors" />
-                  <span>Atmospheric Bento</span>
+                  <Settings size={13} className="text-white/40" />
+                  <span>Preferences & Settings</span>
                 </button>
               </li>
             </ul>
           </div>
 
-          {/* Column 3: Legal & Governance (lg: 2 cols) */}
-          <div className="flex flex-col gap-3 lg:col-span-2">
-            <h4 className="font-display text-xs font-semibold uppercase tracking-wider text-white/40">
-              Governance
+          {/* Column 3: Legal & Data Attribution */}
+          <div className="flex flex-col gap-3 lg:col-span-4">
+            <h4 className="font-mono text-xs font-semibold uppercase tracking-wider text-white/40">
+              Data & Governance
             </h4>
-            <ul className="flex flex-col gap-2 text-sm text-white/70">
+            <ul className="flex flex-col gap-2 text-xs font-mono text-white/70">
               <li>
                 <button
                   type="button"
                   onClick={() => onOpenLegal?.('privacy')}
-                  className="flex items-center gap-2 transition-colors hover:text-[var(--sky)] group text-left"
+                  className="flex items-center gap-2 transition-colors hover:text-[var(--sky)] text-left"
                 >
-                  <ShieldCheck className="size-3.5 text-sky-400/80 group-hover:text-[var(--sky)] transition-colors" />
-                  <span className="font-medium">Privacy Policy</span>
+                  <ShieldCheck size={13} className="text-white/40" />
+                  <span>Privacy Policy (Zero Telemetry)</span>
                 </button>
               </li>
               <li>
                 <button
                   type="button"
                   onClick={() => onOpenLegal?.('terms')}
-                  className="flex items-center gap-2 transition-colors hover:text-[var(--gold)] group text-left"
+                  className="flex items-center gap-2 transition-colors hover:text-white text-left"
                 >
-                  <FileText className="size-3.5 text-amber-400/80 group-hover:text-[var(--gold)] transition-colors" />
-                  <span className="font-medium">Terms of Service</span>
+                  <FileText size={13} className="text-white/40" />
+                  <span>Terms of Service</span>
                 </button>
               </li>
               <li>
@@ -232,10 +214,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenLegal, onNavigateTab }) =>
                   href="https://open-meteo.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-1.5 text-white/55 transition-colors hover:text-white group"
+                  className="flex items-center gap-1.5 transition-colors hover:text-white"
                 >
-                  <span>Data Attribution</span>
-                  <ExternalLink className="size-3 opacity-60 group-hover:opacity-100" />
+                  <span>Data Attribution (Open-Meteo)</span>
+                  <ExternalLink size={11} className="opacity-60" />
                 </a>
               </li>
               <li>
@@ -243,97 +225,29 @@ export const Footer: React.FC<FooterProps> = ({ onOpenLegal, onNavigateTab }) =>
                   href="https://github.com/mizan989/skylio/blob/main/LICENSE"
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-1.5 text-white/55 transition-colors hover:text-white group"
+                  className="flex items-center gap-1.5 transition-colors hover:text-white"
                 >
                   <span>MIT License</span>
-                  <ExternalLink className="size-3 opacity-60 group-hover:opacity-100" />
+                  <ExternalLink size={11} className="opacity-60" />
                 </a>
               </li>
             </ul>
           </div>
-
-          {/* Column 4: Creator & Connect (lg: 3 cols) */}
-          <div className="flex flex-col justify-between gap-6 lg:col-span-3">
-            <div className="flex flex-col gap-3">
-              <h4 className="font-display text-xs font-semibold uppercase tracking-wider text-white/40">
-                Connect
-              </h4>
-              <div className="flex flex-col gap-1 text-sm">
-                <div className="flex items-center gap-1.5 text-white/80">
-                  <span>Crafted with</span>
-                  <Heart className="size-3.5 fill-rose-500 text-rose-500 animate-pulse" />
-                  <span>by</span>
-                  <span className="font-semibold text-white">Md Mizan</span>
-                </div>
-                <p className="text-xs text-white/50">Full-Stack Engineer & Designer</p>
-              </div>
-
-              {/* Social Media Pill Dock */}
-              <div className="mt-2 flex items-center gap-2">
-                {SOCIAL_LINKS.map((link) => {
-                  const Icon = link.icon;
-                  return (
-                    <motion.a
-                      key={link.name}
-                      href={link.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={link.name}
-                      title={link.name}
-                      whileHover={{ scale: 1.15, y: -2 }}
-                      whileTap={{ scale: 0.92 }}
-                      transition={{ type: 'spring', stiffness: 450, damping: 25 }}
-                      className={`flex size-9 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.03] text-white/60 transition-all duration-200 ${link.hoverColor} ${link.hoverBorder} ${link.hoverGlow}`}
-                    >
-                      <Icon className="size-4" />
-                    </motion.a>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Back To Top Button */}
-            <div>
-              <motion.button
-                whileHover={{ scale: 1.04, y: -2 }}
-                whileTap={{ scale: 0.96 }}
-                onClick={scrollToTop}
-                className="flex items-center gap-2 rounded-2xl border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-xs font-medium text-white/70 shadow-sm transition-all hover:border-white/20 hover:bg-white/[0.06] hover:text-white"
-              >
-                <ArrowUp className="size-3.5 text-[var(--sky)]" />
-                <span>Back to Zenith</span>
-              </motion.button>
-            </div>
-
-          </div>
-
         </div>
 
-        {/* Bottom Sub-Footer: Copyright & Privacy Badge */}
-        <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-white/[0.06] pt-6 sm:flex-row text-xs text-white/45">
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-            <span>© {currentYear} Skylio. Built for precision & meteorological elegance.</span>
-          </div>
+        {/* Bottom bar */}
+        <div className="mt-8 border-t border-white/[0.06] pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono text-white/40">
+          <span>© {currentYear} Skylio. Free & open meteorological software.</span>
 
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => onOpenLegal?.('privacy')}
-              className="text-white/45 hover:text-white transition-colors"
-            >
-              Privacy
-            </button>
-            <span>•</span>
-            <button
-              type="button"
-              onClick={() => onOpenLegal?.('terms')}
-              className="text-white/45 hover:text-white transition-colors"
-            >
-              Terms
-            </button>
-            <span>•</span>
-            <span className="text-emerald-400/80 font-mono text-[11px]">100% Tracker-Free</span>
-          </div>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={scrollToTop}
+            className="flex items-center gap-1.5 text-white/50 hover:text-white transition-colors self-start sm:self-auto"
+          >
+            <span>Back to top</span>
+            <ArrowUp size={12} />
+          </motion.button>
         </div>
       </div>
     </footer>

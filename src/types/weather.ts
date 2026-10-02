@@ -1,4 +1,17 @@
 export type TempUnit = 'celsius' | 'fahrenheit';
+export type WindUnit = 'kmh' | 'mph' | 'ms';
+export type PrecipUnit = 'mm' | 'inch';
+export type TimeFormat = '12h' | '24h';
+
+export interface UserPreferences {
+  tempUnit: TempUnit;
+  windUnit: WindUnit;
+  precipUnit: PrecipUnit;
+  timeFormat: TimeFormat;
+}
+
+export type PrimaryDestination = 'weather' | 'airquality' | 'details' | 'settings';
+export type WeatherViewTab = 'overview' | 'hourly' | 'daily' | 'telemetry';
 
 export interface GeocodeResult {
   id: number;
@@ -8,6 +21,14 @@ export interface GeocodeResult {
   latitude: number;
   longitude: number;
   timezone: string;
+}
+
+export interface WeatherLocation {
+  name: string;
+  admin1?: string;
+  country: string;
+  latitude: number;
+  longitude: number;
 }
 
 export interface HourlyData {
@@ -66,12 +87,32 @@ export interface ForecastResponse {
   utc_offset_seconds: number;
 }
 
-export interface WeatherLocation {
-  name: string;
-  admin1?: string;
-  country: string;
-  latitude: number;
-  longitude: number;
+export interface AirQualityCurrent {
+  time: string;
+  interval?: number;
+  european_aqi?: number | null;
+  us_aqi?: number | null;
+  pm10?: number | null;
+  pm2_5?: number | null;
+  carbon_monoxide?: number | null;
+  nitrogen_dioxide?: number | null;
+  sulphur_dioxide?: number | null;
+  ozone?: number | null;
 }
 
-export type WeatherViewTab = 'overview' | 'hourly' | 'daily' | 'telemetry';
+export interface AirQualityHourly {
+  time: string[];
+  european_aqi?: (number | null)[];
+  us_aqi?: (number | null)[];
+  pm10?: (number | null)[];
+  pm2_5?: (number | null)[];
+  ozone?: (number | null)[];
+  nitrogen_dioxide?: (number | null)[];
+}
+
+export interface AirQualityResponse {
+  current: AirQualityCurrent;
+  hourly: AirQualityHourly;
+  current_units: Record<string, string>;
+  timezone: string;
+}

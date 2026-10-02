@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/mizan989/Skylio-Weather_App">
-    <img src="./public/favicon.svg" alt="Skylio Logo" width="100" height="100">
+    <img src="./public/logo.png" alt="Skylio Logo" width="120" height="120" style="border-radius: 28px;">
   </a>
 </p>
 
@@ -8,7 +8,7 @@
 
 # Skylio
 
-### The minimalist precision atmospheric intelligence platform & celestial forecast engine. Real-time meteorological telemetry, dynamic solar horizon gradients, particle atmospheric canvas, and fluid kinetic physics.
+### The minimalist precision atmospheric intelligence platform & celestial forecast engine. Real-time meteorological telemetry, dedicated Air Quality analytics, dynamic solar horizon gradients, particle atmospheric canvas, and fluid kinetic physics.
 
 <br/>
 
@@ -30,25 +30,27 @@
 </div>
 
 > [!TIP]
-> **Minimalist Precision Forecast Ready!** Experience real-time meteorological calculations, dynamic diurnal horizon gradients, interactive 24-hour hourly trend analytics, and atmospheric telemetry bento grids — [Get started locally in under 60 seconds](#-quick-start).
+> **Precision Atmospheric Instrument!** Experience real-time meteorological calculations, dedicated Air Quality analytics (EAQI & US EPA AQI), dynamic diurnal horizon gradients, interactive 24-hour hourly trend analytics, and high-precision telemetry matrices — [Get started locally in under 60 seconds](#-quick-start).
 
 ---
 
 ## Skylio Overview
 
-Skylio is an open-source, minimalist precision weather web application and celestial telemetry engine. Engineered to replace cluttered, ad-heavy meteorological dashboards with typographic elegance and scientific clarity, Skylio presents weather as a quiet, atmospheric discipline: real-time meteorological metrics, 24-hour barometric trends, and a signature dynamic **horizon line**—a hairline gradient that shifts chromatic hues in real time according to local solar elevation and WMO weather condition families.
+Skylio is an open-source, minimalist precision weather application and celestial telemetry engine. Engineered to replace cluttered, ad-heavy meteorological dashboards with typographic elegance and scientific clarity, Skylio presents weather as a quiet, atmospheric discipline: real-time meteorological metrics, 24-hour barometric trends, dedicated Air Quality analytics, and a signature dynamic **horizon line**—a hairline gradient that shifts chromatic hues in real time according to local solar elevation and WMO weather condition families.
 
-Operating on a direct, client-to-API zero-key architecture powered by **Open-Meteo**, Skylio queries high-resolution global numerical weather prediction models (including ECMWF, GFS, and DWD ICON). All coordinates, search history, pinned locations, and temperature preferences are handled directly in volatile browser memory and persisted privately in client `localStorage`—guaranteeing complete user privacy with zero tracking, zero telemetry logging, and zero third-party cookies.
+Operating on a direct, client-to-API zero-key architecture powered by **Open-Meteo**, Skylio queries high-resolution global numerical weather prediction models (including ECMWF, GFS, and DWD ICON) and dedicated atmospheric chemistry models. All coordinates, search history, pinned locations, and measurement preferences are handled directly in volatile browser memory and persisted privately in client `localStorage`—guaranteeing complete user privacy with zero tracking, zero telemetry logging, and zero third-party cookies.
 
 **Key Capabilities:**
 
-- **Zero-Key Open Meteorological Architecture** — Direct, unencumbered client queries to high-resolution ECMWF and GFS numerical models via Open-Meteo REST endpoints
+- **Zero-Key Open Meteorological Architecture** — Direct, unencumbered client queries to high-resolution ECMWF and GFS numerical models via Open-Meteo Forecast and Air Quality REST endpoints
+- **Four Dedicated Primary Destinations** — Deeply structured views for Weather, Air Quality, Telemetry Details, and Preferences
+- **Dedicated Air Quality Analytics** — Dual-standard Air Quality Index (European EAQI & US EPA AQI), 6 key pollutants ($\text{PM}_{2.5}$, $\text{PM}_{10}$, $\text{O}_3$, $\text{NO}_2$, $\text{SO}_2$, $\text{CO}$ in $\mu\text{g/m}^3$), 24-hour diurnal trend charts, and actionable health guidance
 - **Dynamic Diurnal Horizon Engine** — Signature hairline gradient dynamically computing ambient solar elevations and chromatic shifts between daylight gold-blues, twilight purples, and deep nocturnal indigos
 - **Reactive 2D Particle Canvas** — Hardware-accelerated canvas particle simulation rendering adaptive atmospheric phenomena (rain streaks, snow drift, cloud fog, and celestial meteors)
-- **Precision Meteorological Telemetry** — Microclimate metrics comprising hourly barometric curves, precipitation probability, relative humidity, UV index, dew point, and wind vectors
-- **24-Hour & 7-Day Synoptic Matrices** — Interactive hourly scrubber graphs paired with 7-day temperature spreads, daytime/nighttime variations, and conditions
+- **High-Precision Local Typography** — Clean system font stack with tabular numerics (`font-variant-numeric: tabular-nums`) and zero remote static CDN dependencies
+- **24-Hour & 7-Day Synoptic Matrices** — Interactive hourly SVG spline curve scrubber paired with 7-day temperature spreads, gradient range bars, and expandable daily detail drawers
 - **Privacy-First Zero-Tracking Design** — No user registration, no telemetry tracking, and zero advertising cookies; coordinates and bookmarks stay strictly in browser `localStorage`
-- **Curated Apple & Linear-Inspired UX** — Space Grotesk display typography, Inter body, IBM Plex Mono telemetry readouts, fluid spring physics, and Lenis momentum scrolling
+- **Responsive Dual Navigation** — Desktop top navigation bar paired with an ergonomic mobile docked bottom navigation bar
 
 <br>
 
@@ -60,13 +62,13 @@ Operating on a direct, client-to-API zero-key architecture powered by **Open-Met
 ├───────────────────────────────┬─────────────────────────────────────────────────┤
 │  🌍 Atmospheric Data Engine   │  ✨ Dynamic Diurnal Horizon                     │
 │   • Open-Meteo REST telemetry │    [Chromatic Elevation State]                  │
-│   • ECMWF & GFS model blends  │       ├── Diurnal Solar Cycle (Dawn/Dusk/Night) │
+│   • ECMWF, GFS & AQI blends   │       ├── Diurnal Solar Cycle (Dawn/Dusk/Night) │
 │   • WMO Weather Code parsing  │       ├── Condition-Reactive Gradient Hues      │
 ├───────────────────────────────┼─────────────────────────────────────────────────┤
 │  📊 Microclimate Telemetry    │  ⚡ Fluid Kinetic Presentation                  │
 │   • 24h Hourly Trend Curves   │    • Framer Motion Spring Transitions           │
 │   • 7-Day Synoptic Matrix     │    • Lenis Smooth Inertial Scrolling            │
-│   • UV, Dew Point, Wind, Baro │    • Canvas Particle Atmospheric Canvas         │
+│   • EAQI & US EPA AQI Grid    │    • Canvas Particle Atmospheric Canvas         │
 └───────────────────────────────┴─────────────────────────────────────────────────┘
   </pre>
 </div>
@@ -89,28 +91,29 @@ sequenceDiagram
     actor User as Observer / User
     participant Browser as Client Browser (Skylio App)
     participant Geo as Geolocation / Reverse Geocoder
-    participant Meteo as Open-Meteo REST API
+    participant Meteo as Open-Meteo Forecast & AQI APIs
     participant Horizon as Celestial & Horizon Engine
     participant Canvas as Particle Canvas Renderer
 
     User->>Browser: Search Location or Click GPS Locate
     Browser->>Geo: Resolve City Name or Reverse Geocode Coordinates
     Geo-->>Browser: Return Normalized Coordinates (Lat / Lon)
-    Browser->>Meteo: Fetch Forecast (Current, Hourly 24h, Daily 7-Day, Solar)
-    Meteo-->>Browser: Return Meteorological Telemetry JSON
+    Browser->>Meteo: Fetch Forecast (Current, Hourly 24h, Daily 7-Day) & Air Quality
+    Meteo-->>Browser: Return Meteorological Telemetry & Pollutant JSON
     Browser->>Horizon: Compute Solar Position & Map Condition Family
     Horizon-->>Browser: Update CSS Variables (--horizon-gradient, --sky-bg)
     Browser->>Canvas: Initialize Ambient Weather Particles (Rain / Snow / Meteors)
-    Browser-->>User: Render Interactive Bento Dashboard & Synoptic Matrices
+    Browser-->>User: Render Interactive Destination Views (Weather, AQI, Details, Settings)
 ```
 
 ---
 
 ## Use Cases
 
-- **Hyperlocal Daily Decision-Making** — Instant real-time temperature, "feels-like" thermal comfort index, and precipitation warnings
+- **Hyperlocal Daily Decision-Making** — Instant real-time temperature, "feels-like" thermal comfort index, and data-derived weather summaries
+- **Environmental & Air Quality Health** — Monitor particulate matter ($\text{PM}_{2.5}$, $\text{PM}_{10}$) and toxic gases with EAQI and US EPA indexes for outdoor activity planning
 - **Hourly Activity & Travel Planning** — Interactive 24-hour temperature and precipitation curves to pinpoint optimal weather windows
-- **Weekly Synoptic Planning** — 7-day multi-day outlook showing daytime highs, overnight lows, and weather progression
+- **Weekly Synoptic Planning** — 7-day multi-day outlook showing daytime highs, overnight lows, and expandable meteorological drawers
 - **Extreme Weather & UV Protection** — Real-time UV Index rating (0–11+) and peak sun protection advisory
 - **Celestial & Diurnal Monitoring** — Sunrise and sunset timestamps, daylight duration, and day/night celestial transitions
 - **Offline & Private Bookmarking** — Fast switching between favorite global cities stored securely in local browser storage
@@ -152,23 +155,47 @@ Open **[http://localhost:5173](http://localhost:5173)** in your browser to start
 
 ---
 
-## ☁️ Atmospheric Workspaces & Views
+## ☁️ Atmospheric Destinations & Views
 
-Skylio delivers dedicated interfaces tailored for atmospheric analysis:
+Skylio delivers 4 purpose-built primary destinations tailored for atmospheric analysis:
 
-- **Overview Matrix (`Overview` Tab)** — Complete meteorological command center featuring hero temperature, wind bearing, 24h trend graph, telemetry bento, and 7-day forecast.
-- **24h Hourly Graph (`24h Hourly` Tab)** — High-precision temperature curves, hourly precipitation probabilities, dew point, and time-scrubbing.
-- **7-Day Synoptic Matrix (`7-Day Matrix` Tab)** — 7-day temperature extremes, daily weather condition badges, precipitation percentages, and solar summaries.
-- **Atmospheric Bento (`Atmosphere` Tab)** — Granular telemetry cards: UV Index, Relative Humidity, Wind Velocity & Gusts, Atmospheric Pressure, Visibility, and Sunrise/Sunset times.
-- **Interactive Search & Pinned Bar** — Debounced geocoding search with instant autocomplete, browser GPS geolocation detection, and persistent bookmarks bar.
-- **Governance & Legal Suite (`#privacy` & `#terms`)** — Built-in privacy charter and terms of service modal accessible via hash links or footer navigation.
+### 1. Weather Destination (`/weather`)
+- **Luxury Atmospheric Hero Card** — Displays current temperature with tabular typography, local timezone clock, high/low spread, feels-like temperature, and a deterministic summary badge (e.g., *"Clear skies through afternoon; breezy gusts"*).
+- **24-Hour Forecast Timeline** — 24-hour forecast timeline with dual view modes (smooth interactive SVG spline curve with scrubber vs. horizontal card carousel), synchronized with the location's actual timezone.
+- **Today's Highlights** — Today's 4 core metrics: Relative Humidity & Dew point, Wind & Gusts with Cardinal Direction, UV Index with Exposure Scale, and Solar Diurnal arc with daylight duration.
+- **7-Day Forecast Matrix** — Multi-day synoptic outlook featuring gradient temperature range bars and expandable accordion drawers revealing daily precipitation probability, wind speed, UV max, and sunrise/sunset times.
+
+### 2. Air Quality Destination (`/air-quality`)
+- **Dual Index Standards** — Toggle between **US EPA AQI** (0–500 scale) and **European EAQI** (1–5 scale).
+- **6 Key Pollutants** — Dedicated pollutant cards for $\text{PM}_{2.5}$, $\text{PM}_{10}$, $\text{O}_3$, $\text{NO}_2$, $\text{SO}_2$, and $\text{CO}$ in $\mu\text{g/m}^3$ alongside condition status badges.
+- **24-Hour Diurnal Trend** — Hourly pollutant trajectory bar chart tracking air quality shifts throughout the diurnal cycle.
+- **Plain-Language Health Guidance** — Actionable advisories for sensitive groups, outdoor exercise, home ventilation, and protective mask recommendations.
+
+### 3. Details Destination (`/details`)
+- **Advanced Telemetry Grid** — Categorized meteorological observations with interactive category filter pills (`All`, `Atmosphere`, `Wind`, `Solar`, `Hydrology`).
+- **Granular Metrics** — Mean Sea Level pressure, surface pressure, dew point, cloud cover, visibility distance, wind gusts, cardinal compass degrees, Beaufort scale rating, UV index, sunrise/sunset, daylight duration, precipitation accumulation, and rain probability.
+
+### 4. Settings Destination (`/settings`)
+- **Measurement Preferences** — Functional preference switching persisted to browser `localStorage`:
+  - **Temperature:** Celsius (°C) / Fahrenheit (°F)
+  - **Wind Speed:** Kilometers per hour (km/h) / Miles per hour (mph) / Meters per second (m/s)
+  - **Precipitation:** Millimeters (mm) / Inches (in)
+  - **Time Format:** 12-Hour (AM/PM) / 24-Hour
+- **Location Troubleshooting** — Built-in permissions guide for browser geolocation.
+- **Data Attribution** — Transparent links and acknowledgements to Open-Meteo.
+- **Legal Governance** — Direct launch modal for the Privacy Policy and Terms of Service.
 
 ---
 
-## ✨ Features
+## ✨ Design & Architecture Principles
+
+### Zero-Remote Static Asset Policy
+Skylio strictly complies with a zero-remote static asset standard:
+- **No Remote Fonts:** Removed all external Google Fonts CDN links. The interface renders using high-performance local system font stacks with tabular numerals (`font-variant-numeric: tabular-nums`).
+- **No Remote Icons:** All icons are bundled locally via `lucide-react`.
+- **Local Brand Assets:** All favicons and application marks are generated and served locally from `public/`.
 
 ### Dynamic Diurnal Horizon Engine
-
 Skylio dynamically shifts its atmospheric color palette and horizon hairline according to the current solar position and weather conditions:
 
 ```text
@@ -187,11 +214,6 @@ Local Solar Angle & WMO Code
 [4. Particle Simulation]  ── Activates Rain, Snow, Cloud Fog, or Meteors Canvas
 ```
 
-### Hardware-Accelerated Kinetic Physics
-- **Fluid Spring Physics** — Built with Framer Motion for natural, responsive interactive transitions across view tabs and search modals.
-- **Lenis Smooth Inertial Scrolling** — Momentum-based wheel scrolling providing an ultra-fluid reading experience across telemetry matrices.
-- **Reactive Particle Canvas** — 60 FPS HTML5 Canvas engine dynamically spawning precipitation streaks, snow drift, or shooting stars.
-
 ### Modern Frontend Tech Stack
 
 | Layer | Technologies |
@@ -200,14 +222,14 @@ Local Solar Angle & WMO Code
 | **Styling & Design System** | Tailwind CSS v4, CSS Custom Properties (`--horizon-gradient`, `--sky-bg`) |
 | **Animation & Kinetics** | Framer Motion, Lenis Smooth Inertial Wheel Scroll |
 | **Iconography & Graphics** | Lucide React, Inline Meteorological SVGs |
-| **Meteorological APIs** | Open-Meteo Weather Forecast API, Open-Meteo Geocoding API |
-| **Typography System** | Space Grotesk (Display), Inter (Body UI), IBM Plex Mono (Telemetry / Metrics) |
+| **Meteorological APIs** | Open-Meteo Weather Forecast API, Open-Meteo Air Quality API, Geocoding API |
+| **Typography System** | System Sans & Monospace with Tabular Numerics (`tabular-nums` / `tnum`) — Zero CDN dependencies |
 | **State & Local Persistence** | React Hooks, Browser `localStorage` |
 | **Linting & Code Quality** | Oxlint, TypeScript strict mode |
 
 ---
 
-## ⚙️ Configuration
+## ⚙️ Configuration & Storage
 
 ### Unit Switching & Preferences
 
@@ -220,6 +242,7 @@ Skylio automatically persists temperature and measurement preferences in browser
 
 | Key | Description | Default Fallback |
 |---|---|---|
+| `skylio_preferences` | User unit preferences (temp, wind, precip, time format) | Metric defaults |
 | `skylio-current-location` | Currently selected city coordinates and metadata | Kolkata, West Bengal, India |
 | `skylio-bookmarks` | JSON array of saved favorite global cities | Preset global capitals |
 
@@ -244,7 +267,7 @@ Skylio was built from the ground up to respect user privacy:
 
 - **Zero Tracking Scripts** — No Google Analytics, no Facebook Pixels, and zero user-tracking scripts.
 - **No Mandatory Accounts** — Use all features, pin locations, and toggle units without creating an account or providing email addresses.
-- **Client-Side Storage Only** — Pinned locations and coordinates remain strictly stored on your own device via `localStorage`.
+- **Client-Side Storage Only** — Pinned locations, units, and coordinates remain strictly stored on your own device via `localStorage`.
 - **Encrypted Transmission** — All queries to Open-Meteo are transmitted via secure HTTPS (TLS 1.3).
 
 ---
@@ -256,36 +279,46 @@ skylio/
 ├── assets/
 │   └── screenshot.png          # High-resolution application preview screenshot
 ├── public/
-│   ├── favicon.svg             # Vector weather brand logo & favicon
-│   └── icons.svg               # SVG sprite definitions
+│   ├── favicon.png             # 192x192 brand logo & favicon
+│   ├── favicon-32x32.png       # 32x32 standard browser favicon
+│   ├── logo.png                # High-resolution brand squircle icon (1141x1141)
+│   └── logo-512.png            # 512x512 high-DPI icon
 ├── src/
-│   ├── assets/                 # Brand assets & graphic vectors
 │   ├── components/
-│   │   ├── inspira/            # Meteors, AnimatedTabs, kinetic components
 │   │   ├── legal/              # LegalModal, PrivacyPolicy, TermsConditions
-│   │   ├── DailyList.tsx       # 7-day synoptic forecast matrix
-│   │   ├── Footer.tsx          # Multi-column glassmorphic footer & social dock
-│   │   ├── HeroWeatherCard.tsx # Primary atmospheric summary & bookmark pin
-│   │   ├── HourlyChart.tsx     # 24-hour interactive meteorological trend graph
+│   │   ├── AirQualityView.tsx  # Dedicated Open-Meteo Air Quality (EAQI & US AQI)
+│   │   ├── DailyList.tsx       # 7-day synoptic forecast matrix with expandable drawers
+│   │   ├── DetailsView.tsx     # Atmospheric, wind, solar & precipitation telemetry
+│   │   ├── Footer.tsx          # Clean restrained footer & governance dock
+│   │   ├── Header.tsx          # Brand logo, location chip, unit toggles & desktop nav
+│   │   ├── HeroWeatherCard.tsx # Truthful atmospheric hero & deterministic summary
+│   │   ├── HighlightsPanel.tsx # Compact essential observations panel
+│   │   ├── HourlyChart.tsx     # 24-hour timezone-aligned trend graph & cards
+│   │   ├── MobileNav.tsx       # Docked mobile bottom navigation bar
 │   │   ├── SavedLocations.tsx  # Pinned city bookmarks bar
 │   │   ├── SearchBar.tsx       # Debounced geocoding search & GPS locator
-│   │   ├── TelemetryBentoGrid.tsx # Sensor telemetry bento instrumentation
-│   │   ├── Toggles.tsx         # Celsius / Fahrenheit unit switchers
-│   │   └── WeatherBackground.tsx # Reactive 2D canvas weather particle engine
+│   │   ├── SettingsView.tsx    # Functional unit preferences & attribution
+│   │   ├── WeatherBackground.tsx # Reactive 2D canvas weather particle engine
+│   │   └── inspira/
+│   │       └── Meteors.tsx     # Lightweight celestial night meteors effect
 │   ├── hooks/
-│   │   ├── useGeolocation.ts   # Browser navigator.geolocation hook & reverse geocoding
-│   │   └── useWeather.ts       # Open-Meteo API data synchronization hook
+│   │   ├── useAirQuality.ts    # Open-Meteo Air Quality API synchronization hook
+│   │   ├── useGeolocation.ts   # Browser navigator.geolocation & reverse geocoding
+│   │   ├── usePreferences.ts   # LocalStorage measurement preferences hook
+│   │   └── useWeather.ts       # Open-Meteo Weather Forecast API synchronization hook
 │   ├── lib/
 │   │   ├── api.ts              # Open-Meteo REST endpoints & payload transformers
 │   │   ├── horizon.ts          # Condition-to-gradient & diurnal solar color mapping
+│   │   ├── time.ts             # Timezone-aware timestamping & diurnal calculations
 │   │   ├── utils.ts            # Class merging utility (clsx + tailwind-merge)
-│   │   └── weatherCodes.ts     # WMO weather code mapping to conditions & icons
+│   │   ├── weatherCodes.ts     # WMO weather code mapping to conditions & icons
+│   │   └── weatherSummary.ts   # Deterministic data-derived weather insight engine
 │   ├── types/
 │   │   └── weather.ts          # TypeScript interfaces for meteorological telemetry
-│   ├── App.tsx                 # Root application orchestration & view switcher
+│   ├── App.tsx                 # Root application orchestration & destination routing
 │   ├── index.css               # Design tokens, typography & CSS variables
 │   └── main.tsx                # React 19 root bootstrap & Lenis smooth scroll
-├── index.html                  # HTML5 entry with Google Fonts & viewport metadata
+├── index.html                  # HTML5 entry with local icon assets & viewport metadata
 ├── package.json                # Project dependencies and script declarations
 ├── tsconfig.json               # TypeScript compiler configuration
 └── vite.config.ts              # Vite 8 build & bundler configuration
@@ -324,7 +357,7 @@ npm run build
 npm run build
 
 # Run Oxlint linter on source code
-npx oxlint src
+npm run lint
 ```
 
 ---
@@ -334,9 +367,9 @@ npx oxlint src
 We welcome contributions to Skylio! Whether you're optimizing Canvas particle physics, improving accessibility, or refining meteorological telemetry readouts:
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/solar-elevation-polar-graph`)
-3. Commit your changes (`git commit -m 'Add polar solar elevation chart'`)
-4. Push to the branch (`git push origin feature/solar-elevation-polar-graph`)
+2. Create your feature branch (`git checkout -b feature/air-quality-pollutant-chart`)
+3. Commit your changes (`git commit -m 'Add air quality pollutant chart'`)
+4. Push to the branch (`git push origin feature/air-quality-pollutant-chart`)
 5. Open a [Pull Request](https://github.com/mizan989/Skylio-Weather_App/pulls)
 
 ---
@@ -351,13 +384,12 @@ We welcome contributions to Skylio! Whether you're optimizing Canvas particle ph
 
 Skylio is built with gratitude towards the open-source meteorological and developer ecosystem:
 
-- [Open-Meteo](https://open-meteo.com/) — Free, open-access meteorological weather forecast & geocoding APIs
+- [Open-Meteo](https://open-meteo.com/) — Free, open-access meteorological weather forecast, air quality & geocoding APIs
 - [React](https://react.dev/) & [Vite](https://vitejs.dev/) — Lightning-fast frontend tooling and runtime
 - [Tailwind CSS](https://tailwindcss.com/) — Utility-first aesthetic styling engine
-- [Framer Motion](https://www.framer.com/motion/) — Fluid spring animations and interactive layout transitions
+- [Framer Motion](https://framer.com/motion/) — Fluid spring animations and interactive layout transitions
 - [Lenis](https://lenis.darkroom.engineering/) — Smooth momentum-based inertial scrolling
 - [Lucide Icons](https://lucide.dev/) — Clean, consistent UI iconography
-- [Google Fonts](https://fonts.google.com/) — Space Grotesk, Inter, and IBM Plex Mono typography
 
 <div align="center">
 

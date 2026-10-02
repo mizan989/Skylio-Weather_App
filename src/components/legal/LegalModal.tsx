@@ -120,11 +120,18 @@ export const LegalModal: React.FC<LegalModalProps> = ({
                   </motion.button>
                   <div>
                     <div className="flex items-center gap-2">
+                      <img
+                        src="/logo.png"
+                        alt="Skylio"
+                        className="size-6 rounded-lg object-contain border border-white/10 shadow-sm"
+                        width={24}
+                        height={24}
+                      />
                       <span className="font-display text-lg font-bold tracking-tight text-white">
                         Sky<span className="text-[var(--sky)]">lio</span>
                       </span>
                       <span className="rounded-md border border-white/[0.08] bg-white/[0.04] px-1.5 py-0.5 font-mono text-[10px] text-white/60">
-                        Legal Center
+                        Legal
                       </span>
                     </div>
                     <p id="legal-modal-title" className="text-xs text-white/50">

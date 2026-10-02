@@ -38,24 +38,26 @@ html {
 
 body {
   margin: 0;
-  background: var(--sky-bg, #0A0E16);
+  background: var(--sky-bg, #080C14);
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
   color: var(--ink);
-  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   transition: color 0.4s ease, background 0.8s ease;
   -webkit-font-smoothing: antialiased;
-  text-shadow: 0 1px 8px rgba(0,0,0,0.3);
   overflow-x: hidden;
 }
 
 .font-display {
-  font-family: 'Space Grotesk', ui-sans-serif, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: -0.02em;
 }
 
 .font-mono {
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  font-feature-settings: "tnum" 1;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Signature horizon hairline */
@@ -135,13 +137,7 @@ body,
   scrollbar-width: none;
 }
 
-/* Inspira UI Animations */
-@keyframes border-beam {
-  100% {
-    offset-distance: 100%;
-  }
-}
-
+/* Ambient micro-animations */
 @keyframes meteor {
   0% {
     transform: rotate(215deg) translateX(0);
@@ -156,44 +152,10 @@ body,
   }
 }
 
-@keyframes shimmer-slide {
-  to {
-    transform: translate(calc(100cqw - 100%), 0);
-  }
-}
-
-@keyframes spin-around {
-  0% {
-    transform: translateZ(0) rotate(0);
-  }
-  15%, 35% {
-    transform: translateZ(0) rotate(90deg);
-  }
-  65%, 85% {
-    transform: translateZ(0) rotate(270deg);
-  }
-  100% {
-    transform: translateZ(0) rotate(360deg);
-  }
-}
-
-.animate-border-beam {
-  animation: border-beam calc(var(--duration) * 1s) infinite linear;
-}
-
 .animate-meteor {
   animation: meteor 5s linear infinite;
 }
 
-.animate-shimmer-slide {
-  animation: shimmer-slide var(--speed) ease-in-out infinite alternate;
-}
-
-.animate-spin-around {
-  animation: spin-around calc(var(--speed) * 2) infinite linear;
-}
-
-/* Watermelon UI Micro-interactions */
 @keyframes float-subtle {
   0%, 100% {
     transform: translateY(0px);
@@ -203,41 +165,8 @@ body,
   }
 }
 
-@keyframes pulse-glow {
-  0%, 100% {
-    opacity: 0.4;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.9;
-    transform: scale(1.05);
-  }
-}
-
-@keyframes shimmer-sweep {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
 .animate-float {
   animation: float-subtle 4s ease-in-out infinite;
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-.shimmer-text {
-  background: linear-gradient(90deg, rgba(255,255,255,0.7) 0%, rgba(220,232,255,1) 50%, rgba(255,255,255,0.7) 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer-sweep 6s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
